@@ -14,8 +14,11 @@ def ensure_dbs():
         print("Result/range databases were successfully generated!")
         print()
 
-def pack_rc(rc_module, rc_desc):
-    return ((rc_module & 0x1FF) | (rc_desc & 0x1FFF) << 9)
+def format_rc(rc_module, rc_desc):
+    rc = ((rc_module & 0x1FF) | (rc_desc & 0x1FFF) << 9)
+    rc_fmt = f"{2000 + rc_module:04}-{rc_desc:04}"
+    rc_hex = f"0x{rc:X}"
+    return f"({rc_fmt}, {rc_hex})"
 
 def lookup_rc(rc_module, rc_desc):
     ensure_dbs()
@@ -35,10 +38,7 @@ def lookup_rc(rc_module, rc_desc):
             any_rc = True
             a_rc_mod_name = a_rc["module_name"]
             a_rc_name = "Result" + a_rc["name"]
-            a_rc = pack_rc(a_rc_module, a_rc_desc)
-            a_rc_fmt = f"{2000 + a_rc_module:04}-{a_rc_desc:04}"
-            a_rc_hex = f"0x{a_rc:X}"
-            print (f" - [{a_rc_mod_name}] {a_rc_name}: ({a_rc_fmt}, {a_rc_hex})")
+            print (f" - [{a_rc_mod_name}] {a_rc_name}: {format_rc(a_rc_module, a_rc_desc)}")
     if not any_rc:
         print(" <none>")
 
@@ -52,13 +52,7 @@ def lookup_rc(rc_module, rc_desc):
             any_rg = True
             a_rg_mod_name = a_rg["module_name"]
             a_rg_name = a_rg["name"]
-            a_rg_start_rc = pack_rc(a_rg_module, a_rg_start_desc)
-            a_rg_start_rc_fmt = f"{2000 + a_rg_module:04}-{a_rg_start_desc:04}"
-            a_rg_start_rc_hex = f"0x{a_rg_start_rc:X}"
-            a_rg_end_rc = pack_rc(a_rg_module, a_rg_end_desc)
-            a_rg_end_rc_fmt = f"{2000 + a_rg_module:04}-{a_rg_end_desc:04}"
-            a_rg_end_rc_hex = f"0x{a_rg_end_rc:X}"
-            print(f" - [{a_rg_mod_name}] {a_rg_name}: from ({a_rg_start_rc_fmt}, {a_rg_start_rc_hex}) to ({a_rg_end_rc_fmt}, {a_rg_end_rc_hex})")
+            print(f" - [{a_rg_mod_name}] {a_rg_name}: from {format_rc(a_rg_module, a_rg_start_desc)} to {format_rc(a_rg_module, a_rg_end_desc)}")
     if not any_rg:
         print(" <none>")
 
@@ -95,6 +89,9 @@ if __name__ == "__main__":
         except:
             print("The provided result was not in a valid format...")
             sys.exit()
+
+        print(f"Searching for result {format_rc(rc_module, rc_desc)}...")
+        print()
 
         lookup_rc(rc_module, rc_desc)
     else:
