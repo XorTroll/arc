@@ -1,7 +1,9 @@
 import json
+import os
 import arc_db_gen
 
-TEMPLATE_HPP = "arc_cpp_gen_template.hpp"
+DIR = os.path.dirname(os.path.realpath(__file__))
+TEMPLATE_HPP = os.path.join(DIR, "arc_cpp_gen_template.hpp")
 
 def format_rc(rc_module, rc_desc):
     rc = ((rc_module & 0x1FF) | (rc_desc & 0x1FFF) << 9)

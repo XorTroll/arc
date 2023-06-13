@@ -2,8 +2,9 @@ import json
 import os
 import requests
 
-RC_DB_JSON = "arc_rc_db.json"
-RANGE_DB_JSON = "arc_range_db.json"
+DIR = os.path.dirname(os.path.realpath(__file__))
+RC_DB_JSON = os.path.join(DIR, "arc_rc_db.json")
+RANGE_DB_JSON = os.path.join(DIR, "arc_range_db.json")
 
 def query_ams_rc_hpps():
     rc_hpps = list()
