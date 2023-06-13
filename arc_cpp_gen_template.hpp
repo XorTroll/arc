@@ -80,46 +80,48 @@ $RES_RANGE_DEFINE
 
     // ...
 
-    constexpr std::pair<Result, const char*> ResultNameTable[] = {
+    constexpr std::pair<Result, std::pair<const char*, const char*>> ResultNameTable[] = {
 $RES_TABLE
     };
 
-    constexpr std::pair<ResultRange, const char*> ResultRangeNameTable[] = {
+    constexpr std::pair<ResultRange, std::pair<const char*, const char*>> ResultRangeNameTable[] = {
 $RES_RANGE_TABLE
     };
 
-    inline constexpr const char *GetResultName(const Result rc) {
+    inline constexpr bool GetResultName(const Result rc, const char *&out_module_name, const char *&out_name) {
         for(size_t i = 0; i < std::size(ResultNameTable); i++) {
             if(ResultNameTable[i].first == rc) {
-                return ResultNameTable[i].second;
+                out_module_name = ResultNameTable[i].second.first;
+                out_name = ResultNameTable[i].second.second;
+                return true;
             }
         }
 
-        return nullptr;
+        return false;
     }
 
-    inline constexpr const char *GetResultRangeName(const Result rc) {
+    inline constexpr bool GetResultRangeName(const Result rc, const char *&out_module_name, const char *&out_name) {
         for(size_t i = 0; i < std::size(ResultRangeNameTable); i++) {
             if(ResultRangeNameTable[i].first.Matches(rc)) {
-                return ResultRangeNameTable[i].second;
+                out_module_name = ResultRangeNameTable[i].second.first;
+                out_name = ResultRangeNameTable[i].second.second;
+                return true;
             }
         }
 
-        return nullptr;
+        return false;
     }
 
-    inline constexpr const char *GetResultNameAny(const Result rc) {
-        const auto rc_name = GetResultName(rc);
-        if(rc_name != nullptr) {
-            return rc_name;
+    inline constexpr bool GetResultNameAny(const Result rc, const char *&out_module_name, const char *&out_name) {
+        if(GetResultName(rc, out_module_name, out_name)) {
+            return true;
         }
 
-        const auto range_name = GetResultRangeName(rc);
-        if(range_name != nullptr) {
-            return range_name;
+        if(GetResultRangeName(rc, out_module_name, out_name)) {
+            return true;
         }
 
-        return nullptr;
+        return false;
     }
 
 }

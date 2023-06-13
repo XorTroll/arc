@@ -30,7 +30,7 @@ def generate_cpp(namespace, macro_prefix, out_hpp):
                 rc_src = f"namespace {rc['module_name']} {{ constexpr Result Result{rc['name']} = $MACRO_RC_MAKE({rc['module']}, {rc['desc']}); }}"
                 rcs_src += rcs_src_indent + rc_src + "\n"
 
-                rc_name_src = f"std::make_pair(::$NAMESPACE::{rc['module_name']}::Result{rc['name']}, \"{rc['name']}\"),"
+                rc_name_src = f"std::make_pair(::$NAMESPACE::{rc['module_name']}::Result{rc['name']}, std::make_pair(\"{rc['module_name']}\", \"{rc['name']}\")),"
                 rc_names_src += rc_names_src_indent + rc_name_src + "\n"
             rcs_src.removesuffix("\n")
             rc_names_src.removesuffix("\n")
@@ -45,7 +45,7 @@ def generate_cpp(namespace, macro_prefix, out_hpp):
                 range_src = f"namespace {rc_range['module_name']} {{ constexpr ResultRange ResultRange{rc_range['name']}({rc_range['module']}, {rc_range['start_desc']}, {rc_range['end_desc']}); }}"
                 ranges_src += ranges_src_indent + range_src + "\n"
 
-                range_name_src = f"std::make_pair(::$NAMESPACE::{rc_range['module_name']}::ResultRange{rc_range['name']}, \"{rc_range['name']}\"),"
+                range_name_src = f"std::make_pair(::$NAMESPACE::{rc_range['module_name']}::ResultRange{rc_range['name']}, std::make_pair(\"{rc_range['module_name']}\", \"{rc_range['name']}\")),"
                 range_names_src += range_names_src_indent + range_name_src + "\n"
             hpp = hpp.replace("$RES_RANGE_DEFINE", ranges_src)
             hpp = hpp.replace("$RES_RANGE_TABLE", range_names_src)
