@@ -1,57 +1,47 @@
 # arc
 
-`arc` (short for "Atmosphère" and "result" combined) is an Atmosphère (and custom) result database, or rather, two simple scripts generating them.
+`arc` (short for "Atmosphère" and "result" combined) is a Python Atmosphère/custom Nintendo Switch result utility.
 
-`arc_db_gen.py` can be imported or directly executed, and it will generate two JSON databases: `arc_rc_db.json` and `arc_range_db.json`, with results and result ranges respectively.
+## Databases
 
-`arc.py` is a command-line script to quickly look up a certain result, making use of the generated databases.
+`arc_db_gen.py` parses both [Atmosphère](https://github.com/Atmosphere-NX/Atmosphere)'s C++ headers and custom (default or user-provided) result headers to generate two JSON databases: `arc_rc_db.json` and `arc_range_db.json` (of results and result ranges respectively).
 
-## Generation
+Some useful/template result headers are provided [here](default_rc_hpps). Note that they are not valid C++ headers by themselves, since they just follow a simple format (similar to Atmosphère's result headers but without any includes or extra stuff).
 
-The generator script parses [Atmosphère](https://github.com/Atmosphere-NX/Atmosphere)'s C++ headers (specifically, the ones [here](https://github.com/Atmosphere-NX/Atmosphere/blob/master/libraries/libvapours/include/vapours/results) where results are defined) to generate the database.
+Pull requests can be used to add default result definitions of relevant homebrew projects using custom results.
 
-Following Atmosphère's C++ header format, for other kind of "unofficial" results not defined there, local definitions are provided [here](local_rc_src_hpps) that are also parsed the same way by the generator script.
+## C++ headers
 
-Pull requests can be used to add local result definitions of relevant homebrew projects using custom results.
+`arc_cpp_gen.py` generates a standalone C++ header containing result definitions and utilities from the generated database results and result ranges.
 
 ## Usage
 
-```
-$ python arc.py 0x6a8
-===================================================
-== arc - Atmosphère (and custom) result database ==
-===================================================
-===================================================
-== USAGE: 'arc.py <rc>' or 'arc.py update'       ==
-== Examples: 'arc.py 2002-0001', 'arc.py 0x202'  ==
-== Use 'arc.py update' to update the databases!  ==
-===================================================
+### Generating the databases
 
-Result matches:
- - [ams::creport] ResultAlignmentFault: (2168-0003, 0x6A8)
-Range matches:
- <none>
-```
+`python arc.py gen_db default`
 
-```
-$ python arc.py 2002-6201
-===================================================
-== arc - Atmosphère (and custom) result database ==
-===================================================
-===================================================
-== USAGE: 'arc.py <rc>' or 'arc.py update'       ==
-== Examples: 'arc.py 2002-0001', 'arc.py 0x202'  ==
-== Use 'arc.py update' to update the databases!  ==
-===================================================
+`python arc.py gen_db ams+goldleaf+emuiibo`
 
-Result matches:
- - [ams::fs] ResultFileExtensionWithoutOpenModeAllowAppend: (2002-6201, 0x307202)
-Range matches:
- - [ams::fs] Internal: from (2002-3000, 0x177002) to (2002-7999, 0x3E7E02)
- - [ams::fs] PreconditionViolation: from (2002-6000, 0x2EE002) to (2002-6499, 0x32C602)
- - [ams::fs] InvalidOperationForOpenMode: from (2002-6200, 0x307002) to (2002-6299, 0x313602)
-```
+`python arc.py gen_db default+../dummy/rc_defs.hpp`
+
+> 'ams' is a special token for Atmosphère results, while 'default' is a special token all Atmosphère and default results
+
+> User-provided (non-default) result headers can be supplied with or without their extension in case it's `.rc.hpp` or even as an absolute/relative path (always keep in mind that `+` is a reserved symbol here)
+
+### Result lookup (databases must already be generated)
+
+`python arc.py rc 0x202`
+
+`python arc.py rc 2168-0002`
+
+> This will print all the result or result range matches found in the databases
+
+### C++ generation (databases must already be generated)
+
+`python arc.py gen_cpp testmod TESTMACRO test.hpp`
+
+> This will generate everything inside `testmod::` namespace, and all macro names will be prefixed as `TESTMACRO_<...>`
 
 ## Credits
 
-[Atmosphère](https://github.com/Atmosphere-NX/Atmosphere) for containing simple definitions of a wide range of official results
+[Atmosphère](https://github.com/Atmosphere-NX/Atmosphere) for containing simple definitions of a wide range of official results (and basically the best official result+name collection out there)
