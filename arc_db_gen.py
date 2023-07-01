@@ -23,7 +23,7 @@ def query_ams_rc_hpps():
     return rc_hpps
 
 
-def load_ams_rc_hpp(rc_hpp_url):
+def load_remote_rc_hpp(rc_hpp_url):
     return requests.get(rc_hpp_url).content.decode("utf-8")
 
 def query_local_rc_hpps():
@@ -39,6 +39,15 @@ def query_local_rc_hpps():
 def load_local_rc_hpp(rc_hpp_path):
     with open(rc_hpp_path, "r") as f:
         return f.read()
+
+def load_rc_hpp(rc_hpp_item):
+    try:
+        return load_local_rc_hpp(rc_hpp_item)
+    except:
+        try:
+            return load_remote_rc_hpp(rc_hpp_item)
+        except:
+            raise ValueError("Invalid source")
 
 def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges, cur_namespace):
     for rc_hpp_line in rc_hpp.split("\n"):
@@ -93,7 +102,7 @@ def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges,
                     "end_desc": rg_end_desc
                 })
 
-def generate_dbs(do_ams, local_rc_hpps):
+def generate_dbs(do_ams, custom_rc_hpps):
     namespace_modules = dict()
     namespace_descs = dict()
     namespace_ranges = dict()
@@ -101,10 +110,10 @@ def generate_dbs(do_ams, local_rc_hpps):
 
     if do_ams:
         for ams_rc_hpp_url in query_ams_rc_hpps():
-            process_rc_hpp(load_ams_rc_hpp(ams_rc_hpp_url), namespace_modules, namespace_descs, namespace_ranges, cur_namespace)
+            process_rc_hpp(load_remote_rc_hpp(ams_rc_hpp_url), namespace_modules, namespace_descs, namespace_ranges, cur_namespace)
 
-    for local_rc_hpp_path in local_rc_hpps:
-        process_rc_hpp(load_local_rc_hpp(local_rc_hpp_path), namespace_modules, namespace_descs, namespace_ranges, cur_namespace)
+    for custom_rc_hpp_path in custom_rc_hpps:
+        process_rc_hpp(load_rc_hpp(custom_rc_hpp_path), namespace_modules, namespace_descs, namespace_ranges, cur_namespace)
 
     all_rcs = list()
     all_ranges = list()

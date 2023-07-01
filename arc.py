@@ -3,6 +3,7 @@ import os
 import sys
 import arc_db_gen
 import arc_cpp_gen
+import requests
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_RC_HPP_DIR = os.path.join(DIR, "default_rc_hpps")
@@ -29,6 +30,10 @@ def try_find_rc_hpp_path(rc_hpp_item):
     for path in paths:
         if os.path.isfile(path):
             return path
+
+    if requests.get(rc_hpp_item).status_code == 200:
+        return rc_hpp_item
+
     return None
 
 def check_dbs():

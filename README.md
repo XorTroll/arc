@@ -26,7 +26,7 @@ Pull requests can be used to add default result definitions of relevant homebrew
 
 > 'ams' is a special token for Atmosphère results, while 'default' is a special token all Atmosphère and default results
 
-> User-provided (non-default) result headers can be supplied with or without their extension in case it's `.rc.hpp` or even as an absolute/relative path (always keep in mind that `+` is a reserved symbol here)
+> User-provided (non-default) result headers can be supplied with or without their extension in case it's `.rc.hpp` or even as an absolute/relative path (always keep in mind that `+` is a reserved symbol here) or URL
 
 ### Result lookup (databases must already be generated)
 
