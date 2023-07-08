@@ -5,11 +5,13 @@ import arc_db_gen
 DIR = os.path.dirname(os.path.realpath(__file__))
 TEMPLATE_HPP = os.path.join(DIR, "arc_cpp_gen_template.hpp")
 
+
 def format_rc(rc_module, rc_desc):
     rc = ((rc_module & 0x1FF) | (rc_desc & 0x1FFF) << 9)
     rc_fmt = f"{2000 + rc_module:04}-{rc_desc:04}"
     rc_hex = f"0x{rc:X}"
     return f"({rc_fmt}, {rc_hex})"
+
 
 def generate_cpp(namespace, macro_prefix, out_hpp):
     with open(TEMPLATE_HPP, "r") as in_h:
@@ -32,8 +34,14 @@ def generate_cpp(namespace, macro_prefix, out_hpp):
 
                 rc_name_src = f"std::make_pair(::$NAMESPACE::{rc['module_name']}::Result{rc['name']}, std::make_pair(\"{rc['module_name']}\", \"{rc['name']}\")),"
                 rc_names_src += rc_names_src_indent + rc_name_src + "\n"
-            rcs_src.removesuffix("\n")
-            rc_names_src.removesuffix("\n")
+            try:
+                rcs_src.removesuffix("\n")
+                rc_names_src.removesuffix("\n")
+            except AttributeError:
+                if rcs_src.endswith("\n"):
+                    rcs_src = rcs_src[:-len("\n")]
+                if rc_names_src.endswith("\n"):
+                    rc_names_src = rc_names_src[:-len("\n")]
             hpp = hpp.replace("$RES_DEFINE", rcs_src)
             hpp = hpp.replace("$RES_TABLE", rc_names_src)
 
