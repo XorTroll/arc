@@ -2,6 +2,8 @@
 
 `arc` (short for "Atmosphère" and "result" combined) is a Python Atmosphère/custom Nintendo Switch result utility
 
+> Check [here](https://xortroll.github.io/arc/) for the generated results list!
+
 ## Table of contents
 
 - [arc](#arc)
@@ -12,6 +14,8 @@
     - [Generating the databases](#generating-the-databases)
     - [Result lookup (databases must already be generated)](#result-lookup-databases-must-already-be-generated)
     - [C++ generation (databases must already be generated)](#c-generation-databases-must-already-be-generated)
+    - [Markdown list generation (databases must already be generated)](#markdown-list-generation-databases-must-already-be-generated)
+  - [Result list](#result-list)
   - [Credits](#credits)
 
 ## Databases
@@ -30,6 +34,8 @@ Pull requests can be used to add default result definitions of relevant homebrew
 
 ### Generating the databases
 
+Examples:
+
 `python arc.py gen_db default`
 
 `python arc.py gen_db ams+goldleaf+emuiibo`
@@ -42,6 +48,8 @@ Pull requests can be used to add default result definitions of relevant homebrew
 
 ### Result lookup (databases must already be generated)
 
+Examples: 
+
 `python arc.py rc 0x202`
 
 `python arc.py rc 2168-0002`
@@ -50,9 +58,19 @@ Pull requests can be used to add default result definitions of relevant homebrew
 
 ### C++ generation (databases must already be generated)
 
-`python arc.py gen_cpp testmod TESTMACRO test.hpp`
+Example: `python arc.py gen_cpp testmod TESTMACRO test.hpp`
 
 > This will generate everything inside `testmod::` namespace, and all macro names will be prefixed as `TESTMACRO_<...>`
+
+### Markdown list generation (databases must already be generated)
+
+Example: `python arc.py gen_md out_list.md`
+
+> This will generate a neatly formatted Markdown list with all the results
+
+## Result list
+
+This repository itself maintains a generated list of all default (Atmosphère + libnx + hbloader) results [here](https://xortroll.github.io/arc/).
 
 ## Credits
 

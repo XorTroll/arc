@@ -1393,6 +1393,22 @@
 | 2349-0016 (`0x215D`) | UnknownTransaction | 
 | 2349-0017 (`0x235D`) | FdsNotAllowed | 
 
+## `356` goldleaf
+
+| Value | Description| Part of ranges |
+|-------------------|----------------|-----------------------|
+| 2356-0001 (`0x364`) | NotEnoughSize | 
+| 2356-0002 (`0x564`) | MetaNotFound | 
+| 2356-0003 (`0x764`) | CnmtNotFound | 
+| 2356-0004 (`0x964`) | TitleAlreadyInstalled | 
+| 2356-0005 (`0xB64`) | EntryAlreadyPresent | 
+| 2356-0006 (`0xD64`) | CouldNotLocateTitleContents | 
+| 2356-0007 (`0xF64`) | CouldNotBuildNsp | 
+| 2356-0008 (`0x1164`) | KeyGenerationMismatch | 
+| 2356-0009 (`0x1364`) | InvalidNsp | 
+| 2356-0010 (`0x1564`) | InvalidMeta | 
+| 2356-0011 (`0x1764`) | AssertionFailed | 
+
 ## `444` ams::exosphere
 
 | Value | Description| Part of ranges |
