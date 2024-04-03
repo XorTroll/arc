@@ -1,6 +1,18 @@
 # arc
 
-`arc` (short for "Atmosphère" and "result" combined) is a Python Atmosphère/custom Nintendo Switch result utility.
+`arc` (short for "Atmosphère" and "result" combined) is a Python Atmosphère/custom Nintendo Switch result utility
+
+## Table of contents
+
+- [arc](#arc)
+  - [Table of contents](#table-of-contents)
+  - [Databases](#databases)
+  - [C++ headers](#c-headers)
+  - [Usage](#usage)
+    - [Generating the databases](#generating-the-databases)
+    - [Result lookup (databases must already be generated)](#result-lookup-databases-must-already-be-generated)
+    - [C++ generation (databases must already be generated)](#c-generation-databases-must-already-be-generated)
+  - [Credits](#credits)
 
 ## Databases
 
@@ -24,9 +36,9 @@ Pull requests can be used to add default result definitions of relevant homebrew
 
 `python arc.py gen_db default+../dummy/rc_defs.hpp`
 
-> 'ams' is a special token for Atmosphère results, while 'default' is a special token all Atmosphère and default results
+> 'ams' is a special token for Atmosphère results, while 'default' is a special token for including all Atmosphère and default results
 
-> User-provided (non-default) result headers can be supplied with or without their extension in case it's `.rc.hpp` or even as an absolute/relative path (always keep in mind that `+` is a reserved symbol here) or URL
+> User-provided (non-default) result headers can be supplied (with or without their extension in case it's `.rc.hpp`) or even as an absolute/relative path (always keep in mind that `+` is a reserved symbol here) or URL
 
 ### Result lookup (databases must already be generated)
 
