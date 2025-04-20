@@ -658,6 +658,7 @@
 | 2009-0010 (`0x1409`) | InvalidVersion | 
 | 2009-0011 (`0x1609`) | InvalidAcidSignature | 
 | 2009-0012 (`0x1809`) | InvalidNcaSignature | 
+| 2009-0014 (`0x1C09`) | InvalidPlatformId | 
 | 2009-0051 (`0x6609`) | OutOfAddressSpace | 
 | 2009-0052 (`0x6809`) | InvalidNroImage | 
 | 2009-0053 (`0x6A09`) | InvalidNrrImage | 
@@ -730,6 +731,7 @@
 | 2015-0004 (`0x80F`) | DebugHookInUse | 
 | 2015-0005 (`0xA0F`) | ApplicationRunning | 
 | 2015-0006 (`0xC0F`) | InvalidSize | 
+| 2015-0007 (`0xE0F`) | Unknown7 | 
 
 ## `16` ams::ns
 
@@ -1408,6 +1410,41 @@
 | 2356-0009 (`0x1364`) | InvalidNsp | 
 | 2356-0010 (`0x1564`) | InvalidMeta | 
 | 2356-0011 (`0x1764`) | AssertionFailed | 
+
+## `380` ulaunch
+
+| Value | Description| Part of ranges |
+|-------------------|----------------|-----------------------|
+| 2380-0001 (`0x37C`) | AssertionFailed | Misc
+| 2380-0002 (`0x57C`) | InvalidTransform | Misc
+| 2380-0101 (`0xCB7C`) | OutOfPushSpace | Smi
+| 2380-0102 (`0xCD7C`) | OutOfPopSpace | Smi
+| 2380-0103 (`0xCF7C`) | InvalidInHeaderMagic | Smi
+| 2380-0104 (`0xD17C`) | InvalidOutHeaderMagic | Smi
+| 2380-0105 (`0xD37C`) | WaitTimeout | Smi
+| 2380-0201 (`0x1937C`) | InvalidProcess | SystemSf
+| 2380-0202 (`0x1957C`) | NoMessagesAvailable | SystemSf
+| 2380-0301 (`0x25B7C`) | InvalidProcessType | Loader
+| 2380-0302 (`0x25D7C`) | InvalidTargetInputMagic | Loader
+| 2380-0303 (`0x25F7C`) | InvalidTargetInputSize | Loader
+| 2380-0401 (`0x3237C`) | ApplicationActive | SystemSmi
+| 2380-0402 (`0x3257C`) | InvalidSelectedUser | SystemSmi
+| 2380-0403 (`0x3277C`) | AlreadyQueued | SystemSmi
+| 2380-0404 (`0x3297C`) | ApplicationNotActive | SystemSmi
+| 2380-0405 (`0x32B7C`) | NoHomebrewTakeoverApplication | SystemSmi
+| 2380-0406 (`0x32D7C`) | InvalidApplicationListCount | SystemSmi
+| 2380-0501 (`0x3EB7C`) | InvalidJson | Util
+| 2380-0601 (`0x4B37C`) | RomfsNotFound | Menu
+| 2380-0701 (`0x57B7C`) | InvalidThemeZipFile | Config
+| 2380-0702 (`0x57D7C`) | ThemeManifestNotFound | Config
+| 2380-0703 (`0x57F7C`) | InvalidThemeZipFileRead | Config
+| 2380-0704 (`0x5817C`) | ThemeManifestVersionNotFound | Config
+| 2380-0705 (`0x5837C`) | ThemeManifestNameNotFound | Config
+| 2380-0706 (`0x5857C`) | ThemeManifestAuthorNotFound | Config
+| 2380-0707 (`0x5877C`) | ThemeManifestDescriptionNotFound | Config
+| 2380-0708 (`0x5897C`) | ThemeManifestReleaseNotFound | Config
+| 2380-0709 (`0x58B7C`) | ThemeIconNotFound | Config
+| 2380-0710 (`0x58D7C`) | ThemeIconCacheFail | Config
 
 ## `444` ams::exosphere
 
