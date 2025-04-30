@@ -49,7 +49,7 @@ def load_rc_hpp(rc_hpp_item):
         except:
             raise ValueError("Invalid source")
 
-def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges, cur_namespace):
+def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges, cur_namespace, is_ams):
     for rc_hpp_line in rc_hpp.split("\n"):
         rc_hpp_line_spaced = rc_hpp_line.lstrip().split(" ")
         if len(rc_hpp_line_spaced) > 0:
@@ -60,6 +60,8 @@ def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges,
                 
                 cur_namespace = rc_hpp_line_spaced[1]
                 # print("Entering namespace '" + cur_namespace + "'...")
+                if is_ams:
+                    cur_namespace = cur_namespace.replace("ams::", "")
             elif rc_hpp_line_spaced[0] == "}":
                 assert len(rc_hpp_line_spaced) == 1
                 assert cur_namespace != ""
@@ -74,10 +76,13 @@ def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges,
                 assert rc_hpp_line_tokens[3].startswith(";")
 
                 namespace = rc_hpp_line_tokens[1]
+                if is_ams:
+                    namespace = namespace.replace("ams::", "")
                 rc_module = rc_hpp_line_tokens[2]
                 assert namespace not in namespace_modules
                 namespace_modules[namespace] = rc_module
-                print("Got module: namespace '" + namespace + "', module '" + rc_module + "'")
+
+                print("Got module: namespace '" + namespace + "'" + (" (from Atmosphère)" if is_ams else "") + ", module '" + rc_module + "'")
             elif rc_hpp_line_tokens[0] == "R_DEFINE_ERROR_RESULT":
                 assert len(rc_hpp_line_tokens) >= 4
                 assert rc_hpp_line_tokens[3].startswith(";")
@@ -110,10 +115,10 @@ def generate_dbs(do_ams, custom_rc_hpps):
 
     if do_ams:
         for ams_rc_hpp_url in query_ams_rc_hpps():
-            process_rc_hpp(load_remote_rc_hpp(ams_rc_hpp_url), namespace_modules, namespace_descs, namespace_ranges, cur_namespace)
+            process_rc_hpp(load_remote_rc_hpp(ams_rc_hpp_url), namespace_modules, namespace_descs, namespace_ranges, cur_namespace, True)
 
     for custom_rc_hpp_path in custom_rc_hpps:
-        process_rc_hpp(load_rc_hpp(custom_rc_hpp_path), namespace_modules, namespace_descs, namespace_ranges, cur_namespace)
+        process_rc_hpp(load_rc_hpp(custom_rc_hpp_path), namespace_modules, namespace_descs, namespace_ranges, cur_namespace, False)
 
     all_rcs = list()
     all_ranges = list()
