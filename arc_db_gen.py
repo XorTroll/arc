@@ -79,8 +79,15 @@ def process_rc_hpp(rc_hpp, namespace_modules, namespace_descs, namespace_ranges,
                 if is_ams:
                     namespace = namespace.replace("ams::", "")
                 rc_module = rc_hpp_line_tokens[2]
-                assert namespace not in namespace_modules
-                namespace_modules[namespace] = rc_module
+
+                if namespace in namespace_modules:
+                    other_module = namespace_modules[namespace]
+                    if other_module != rc_module:
+                        raise RuntimeError("Error: namespace '" + namespace + "' previously defined with module '" + str(other_module) + "' and now attempting to redefine it with different module '" + str(rc_module) + "'")
+                    else:
+                        print("Warning: working with already defined namespace '" + namespace + "'")
+                else:
+                    namespace_modules[namespace] = rc_module
 
                 print("Got module: namespace '" + namespace + "'" + (" (from Atmosphère)" if is_ams else "") + ", module '" + rc_module + "'")
             elif rc_hpp_line_tokens[0] == "R_DEFINE_ERROR_RESULT":
