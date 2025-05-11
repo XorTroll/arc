@@ -136,10 +136,7 @@ def gen_markdown(out_md):
     with open(out_md, "w") as out_md_f:
         out_md_f.write(out_md_str)
 
-if __name__ == "__main__":
-    print("== arc - Atmosphère (and custom) result utility ==")
-    print("==================================================")
-    print()
+def print_help():
     print("== Generate databases ==")
     print("'arc.py gen_db <sources>'")
     print("==== example(s): 'arc.py gen_db default', 'arc.py gen_db ams+goldleaf+../dummy/rc_defs.hpp'")
@@ -155,6 +152,11 @@ if __name__ == "__main__":
     print("== Generate Markdown result list ==")
     print("'arc.py gen_md <out_md>'")
     print()
+    print("==================================================")
+    print()
+
+if __name__ == "__main__":
+    print("== arc - Atmosphère (and custom) result utility ==")
     print("==================================================")
     print()
 
@@ -239,6 +241,6 @@ if __name__ == "__main__":
             gen_markdown(out_md)
             print("Done!")
         else:
-            print("Unknown command...")
+            print_help()
     else:
-        print("No command was provided...")
+        print_help()
